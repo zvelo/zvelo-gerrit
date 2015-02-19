@@ -16,7 +16,11 @@ RUN apt-get -y update \
   && curl -fsSL https://ci.gerritforge.com/job/Plugin_github_master/lastStableBuild/artifact/github-plugin/target/github-plugin-2.11-SNAPSHOT.jar -o ${GERRIT_HOME}/plugins/github-plugin.jar \
   && curl -fsSL https://ci.gerritforge.com/job/Plugin_gravatar_master/lastStableBuild/artifact/gravatar.jar -o ${GERRIT_HOME}/plugins/gravatar.jar \
   && curl -fsSL https://ci.gerritforge.com/job/Plugin_delete-project_master/lastStableBuild/artifact/delete-project.jar -o ${GERRIT_HOME}/plugins/delete-project.jar \
+  && java -jar ${GERRIT_HOME}/bin/gerrit.war init --batch --install-plugin download-commands -d ${GERRIT_HOME} \
+  && java -jar ${GERRIT_HOME}/bin/gerrit.war init --batch --install-plugin commit-message-length-validator -d ${GERRIT_HOME} \
+  && java -jar ${GERRIT_HOME}/bin/gerrit.war init --batch --install-plugin reviewnotes -d ${GERRIT_HOME} \
   && java -jar ${GERRIT_HOME}/bin/gerrit.war init --batch --install-plugin singleusergroup -d ${GERRIT_HOME} \
+  && java -jar ${GERRIT_HOME}/bin/gerrit.war init --batch --install-plugin replication -d ${GERRIT_HOME} \
   && java -jar ${GERRIT_HOME}/bin/gerrit.war init --batch -d ${GERRIT_HOME} \
   && chown -R ${GERRIT_USER}:${GERRIT_USER} ${GERRIT_HOME}
 ADD start.sh ${GERRIT_HOME}/bin/start.sh

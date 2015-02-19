@@ -126,6 +126,19 @@ configure() {
 
     chmod 600 ${GERRIT_HOME}/etc/secure.config
   fi
+
+  if [ -n "${REPLICATION_ORG}" ]; then
+    git config -f ${GERRIT_HOME}/etc/replication.config remote.github.url "git@github.com:${REPLICATION_ORG}/\${name}.git"
+  fi
+
+  if [ -n "${SSH_PUBLIC_KEY}" -a -n "${SSH_PRIVATE_KEY}" ]; then
+    mkdir ${GERRIT_HOME}/.ssh
+    echo -e "${SSH_PUBLIC_KEY}"  > ${GERRIT_HOME}/.ssh/id_rsa.pub
+    echo -e "${SSH_PRIVATE_KEY}" > ${GERRIT_HOME}/.ssh/id_rsa
+    chmod 700 ${GERRIT_HOME}/.ssh
+    chmod 600 ${GERRIT_HOME}/.ssh/*
+    chown -R ${GERRIT_USER}:${GERRIT_USER} ${GERRIT_HOME}/.ssh
+  fi
 }
 
 case "$1" in
