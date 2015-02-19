@@ -5,12 +5,26 @@ git config -f ${GERRIT_HOME}/etc/gerrit.config cache.directory    volume/cache
 git config -f ${GERRIT_HOME}/etc/gerrit.config container.user     gerrit2
 git config -f ${GERRIT_HOME}/etc/gerrit.config container.javaHome ${JAVA_HOME}
 
+if [ -n "${REGISTER_EMAIL_PRIVATE_KEY}" ]; then
+  git config -f ${GERRIT_HOME}/etc/secure.config auth.registerEmailPrivateKey ${REGISTER_EMAIL_PRIVATE_KEY}
+  chmod 600 ${GERRIT_HOME}/etc/secure.config
+fi
+
+if [ -n "${REST_TOKEN_PRIVATE_KEY}" ]; then
+  git config -f ${GERRIT_HOME}/etc/secure.config auth.restTokenPrivateKey ${REST_TOKEN_PRIVATE_KEY}
+  chmod 600 ${GERRIT_HOME}/etc/secure.config
+fi
+
 if [ -n "${AUTH_TYPE}" ]; then
   git config -f ${GERRIT_HOME}/etc/gerrit.config auth.type ${AUTH_TYPE}
 fi
 
 if [ -n "${HTTP_LISTEN_URL}" ]; then
   git config -f ${GERRIT_HOME}/etc/gerrit.config httpd.listenUrl ${HTTP_LISTEN_URL}
+fi
+
+if [ -n "${SMTP_FROM}" ]; then
+  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.from ${SMTP_FROM}
 fi
 
 if [ -n "${SMTP_SERVER}" ]; then
