@@ -7,7 +7,7 @@ git config -f ${GERRIT_HOME}/etc/gerrit.config container.javaHome ${JAVA_HOME}
 git config -f ${GERRIT_HOME}/etc/gerrit.config auth.type          ${AUTH_TYPE}
 git config -f ${GERRIT_HOME}/etc/gerrit.config database.type      ${DATABASE_TYPE}
 git config -f ${GERRIT_HOME}/etc/gerrit.config database.database  ${DATABASE_NAME}
-git config -f ${GERRIT_HOME}/etc/gerrit.config httpd.listenUrl    'http://*:8005/'
+git config -f ${GERRIT_HOME}/etc/gerrit.config httpd.listenUrl    ${HTTP_LISTEN_URL}
 
 if [ -n "${PUBLIC_URL}" ]; then
   git config -f ${GERRIT_HOME}/etc/gerrit.config gerrit.canonicalWebUrl ${PUBLIC_URL}
