@@ -1,75 +1,75 @@
 #!/bin/bash
 
-git config -f ${GERRIT_HOME}/etc/gerrit.config gerrit.basePath    volume/git
-git config -f ${GERRIT_HOME}/etc/gerrit.config cache.directory    volume/cache
-git config -f ${GERRIT_HOME}/etc/gerrit.config container.user     gerrit2
-git config -f ${GERRIT_HOME}/etc/gerrit.config container.javaHome ${JAVA_HOME}
+git config -f ${GERRIT_HOME}/etc/gerrit.config gerrit.basePath    "volume/git"
+git config -f ${GERRIT_HOME}/etc/gerrit.config cache.directory    "volume/cache"
+git config -f ${GERRIT_HOME}/etc/gerrit.config container.user     "gerrit2"
+git config -f ${GERRIT_HOME}/etc/gerrit.config container.javaHome "${JAVA_HOME}"
 
 if [ -n "${REGISTER_EMAIL_PRIVATE_KEY}" ]; then
-  git config -f ${GERRIT_HOME}/etc/secure.config auth.registerEmailPrivateKey ${REGISTER_EMAIL_PRIVATE_KEY}
+  git config -f ${GERRIT_HOME}/etc/secure.config auth.registerEmailPrivateKey "${REGISTER_EMAIL_PRIVATE_KEY}"
   chmod 600 ${GERRIT_HOME}/etc/secure.config
 fi
 
 if [ -n "${REST_TOKEN_PRIVATE_KEY}" ]; then
-  git config -f ${GERRIT_HOME}/etc/secure.config auth.restTokenPrivateKey ${REST_TOKEN_PRIVATE_KEY}
+  git config -f ${GERRIT_HOME}/etc/secure.config auth.restTokenPrivateKey "${REST_TOKEN_PRIVATE_KEY}"
   chmod 600 ${GERRIT_HOME}/etc/secure.config
 fi
 
 if [ -n "${AUTH_TYPE}" ]; then
-  git config -f ${GERRIT_HOME}/etc/gerrit.config auth.type ${AUTH_TYPE}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config auth.type "${AUTH_TYPE}"
 fi
 
 if [ -n "${HTTP_LISTEN_URL}" ]; then
-  git config -f ${GERRIT_HOME}/etc/gerrit.config httpd.listenUrl ${HTTP_LISTEN_URL}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config httpd.listenUrl "${HTTP_LISTEN_URL}"
 fi
 
 if [ -n "${SMTP_FROM}" ]; then
-  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.from ${SMTP_FROM}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.from "${SMTP_FROM}"
 fi
 
 if [ -n "${SMTP_SERVER}" ]; then
-  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.smtpServer ${SMTP_SERVER}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.smtpServer "${SMTP_SERVER}"
 fi
 
 if [ -n "${SMTP_PORT}" ]; then
-  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.smtpServerPort ${SMTP_PORT}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.smtpServerPort "${SMTP_PORT}"
 fi
 
 if [ -n "${SMTP_ENCRYPTION}" ]; then
-  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.smtpEncryption ${SMTP_ENCRYPTION}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.smtpEncryption "${SMTP_ENCRYPTION}"
 fi
 
 if [ -n "${SMTP_USER}" ]; then
-  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.smtpUser ${SMTP_USER}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.smtpUser "${SMTP_USER}"
 fi
 
 if [ -n "${SMTP_PASS}" ]; then
-  git config -f ${GERRIT_HOME}/etc/secure.config sendemail.smtpPass ${SMTP_PASS}
+  git config -f ${GERRIT_HOME}/etc/secure.config sendemail.smtpPass "${SMTP_PASS}"
   chmod 600 ${GERRIT_HOME}/etc/secure.config
 fi
 
 if [ -n "${PUBLIC_URL}" ]; then
-  git config -f ${GERRIT_HOME}/etc/gerrit.config gerrit.canonicalWebUrl ${PUBLIC_URL}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config gerrit.canonicalWebUrl "${PUBLIC_URL}"
 fi
 
 if [ -n "${DATABASE_TYPE}" ]; then
-  git config -f ${GERRIT_HOME}/etc/gerrit.config database.type ${DATABASE_TYPE}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config database.type "${DATABASE_TYPE}"
 fi
 
 if [ -n "${DATABASE_NAME}" ]; then
-  git config -f ${GERRIT_HOME}/etc/gerrit.config database.database ${DATABASE_NAME}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config database.database "${DATABASE_NAME}"
 fi
 
 if [ -n "${DATABASE_USERNAME}" ]; then
-  git config -f ${GERRIT_HOME}/etc/gerrit.config database.username ${DATABASE_USERNAME}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config database.username "${DATABASE_USERNAME}"
 fi
 
 if [ -n "${DATABASE_HOSTNAME}" ]; then
-  git config -f ${GERRIT_HOME}/etc/gerrit.config database.hostname ${DATABASE_HOSTNAME}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config database.hostname "${DATABASE_HOSTNAME}"
 fi
 
 if [ -n "${DATABASE_PASSWORD}" ]; then
-  git config -f ${GERRIT_HOME}/etc/secure.config database.password ${DATABASE_PASSWORD}
+  git config -f ${GERRIT_HOME}/etc/secure.config database.password "${DATABASE_PASSWORD}"
   chmod 600 ${GERRIT_HOME}/etc/secure.config
 fi
 
@@ -82,8 +82,8 @@ if [ "${AUTH_TYPE}" = "HTTP" -a -n "${GITHUB_CLIENT_ID}" -a -n "${GITHUB_CLIENT_
   git config -f ${GERRIT_HOME}/etc/gerrit.config auth.httpEmailHeader GITHUB_EMAIL
   git config -f ${GERRIT_HOME}/etc/gerrit.config httpd.filterClass    com.googlesource.gerrit.plugins.github.oauth.OAuthFilter
   git config -f ${GERRIT_HOME}/etc/gerrit.config github.scopes        USER,REPO
-  git config -f ${GERRIT_HOME}/etc/gerrit.config github.clientId      ${GITHUB_CLIENT_ID}
-  git config -f ${GERRIT_HOME}/etc/secure.config github.clientSecret  ${GITHUB_CLIENT_SECRET}
+  git config -f ${GERRIT_HOME}/etc/gerrit.config github.clientId      "${GITHUB_CLIENT_ID}"
+  git config -f ${GERRIT_HOME}/etc/secure.config github.clientSecret  "${GITHUB_CLIENT_SECRET}"
 
   chmod 600 ${GERRIT_HOME}/etc/secure.config
 fi
