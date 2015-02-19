@@ -80,6 +80,38 @@ configure() {
     chmod 600 ${GERRIT_HOME}/etc/secure.config
   fi
 
+  if [ -n "${THEME_BACKGROUND}" ]; then
+    git config -f ${GERRIT_HOME}/etc/gerrit.config theme.backgroundColor ${THEME_BACKGROUND}
+  fi
+
+  if [ -n "${THEME_TOP_MENU}" ]; then
+    git config -f ${GERRIT_HOME}/etc/gerrit.config theme.topMenuColor ${THEME_TOP_MENU}
+  fi
+
+  if [ -n "${THEME_TEXT}" ]; then
+    git config -f ${GERRIT_HOME}/etc/gerrit.config theme.textColor ${THEME_TEXT}
+  fi
+
+  if [ -n "${THEME_TRIM}" ]; then
+    git config -f ${GERRIT_HOME}/etc/gerrit.config theme.trimColor ${THEME_TRIM}
+  fi
+
+  if [ -n "${THEME_SELECTION}" ]; then
+    git config -f ${GERRIT_HOME}/etc/gerrit.config theme.selectionColor ${THEME_SELECTION}
+  fi
+
+  if [ -n "${THEME_CHANGE_TABLE_OUTDATED}" ]; then
+    git config -f ${GERRIT_HOME}/etc/gerrit.config theme.changeTableOutdatedColor ${THEME_CHANGE_TABLE_OUTDATED}
+  fi
+
+  if [ -n "${THEME_TABLE_ODD_ROW}" ]; then
+    git config -f ${GERRIT_HOME}/etc/gerrit.config theme.tableOddRowColor ${THEME_TABLE_ODD_ROW}
+  fi
+
+  if [ -n "${THEME_TABLE_EVEN_ROW}" ]; then
+    git config -f ${GERRIT_HOME}/etc/gerrit.config theme.tableEvenRowColor ${THEME_TABLE_EVEN_ROW}
+  fi
+
   if [ "${AUTH_TYPE}" = "HTTP" -a -n "${GITHUB_CLIENT_ID}" -a -n "${GITHUB_CLIENT_SECRET}" ]; then
     git config -f ${GERRIT_HOME}/etc/gerrit.config auth.loginText       'GitHub Sign-in'
     git config -f ${GERRIT_HOME}/etc/gerrit.config auth.loginUrl        /login
@@ -99,6 +131,7 @@ configure() {
 case "$1" in
   configure)
     configure
+    git config -f ${GERRIT_HOME}/etc/gerrit.config -l
     ;;
   init|reindex)
     configure
