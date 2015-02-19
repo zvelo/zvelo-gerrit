@@ -4,13 +4,46 @@ git config -f ${GERRIT_HOME}/etc/gerrit.config gerrit.basePath    volume/git
 git config -f ${GERRIT_HOME}/etc/gerrit.config cache.directory    volume/cache
 git config -f ${GERRIT_HOME}/etc/gerrit.config container.user     gerrit2
 git config -f ${GERRIT_HOME}/etc/gerrit.config container.javaHome ${JAVA_HOME}
-git config -f ${GERRIT_HOME}/etc/gerrit.config auth.type          ${AUTH_TYPE}
-git config -f ${GERRIT_HOME}/etc/gerrit.config database.type      ${DATABASE_TYPE}
-git config -f ${GERRIT_HOME}/etc/gerrit.config database.database  ${DATABASE_NAME}
-git config -f ${GERRIT_HOME}/etc/gerrit.config httpd.listenUrl    ${HTTP_LISTEN_URL}
+
+if [ -n "${AUTH_TYPE}" ]; then
+  git config -f ${GERRIT_HOME}/etc/gerrit.config auth.type ${AUTH_TYPE}
+fi
+
+if [ -n "${HTTP_LISTEN_URL}" ]; then
+  git config -f ${GERRIT_HOME}/etc/gerrit.config httpd.listenUrl ${HTTP_LISTEN_URL}
+fi
+
+if [ -n "${SMTP_SERVER}" ]; then
+  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.smtpServer ${SMTP_SERVER}
+fi
+
+if [ -n "${SMTP_PORT}" ]; then
+  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.smtpServerPort ${SMTP_PORT}
+fi
+
+if [ -n "${SMTP_ENCRYPTION}" ]; then
+  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.smtpEncryption ${SMTP_ENCRYPTION}
+fi
+
+if [ -n "${SMTP_USER}" ]; then
+  git config -f ${GERRIT_HOME}/etc/gerrit.config sendemail.smtpUser ${SMTP_USER}
+fi
+
+if [ -n "${SMTP_PASS}" ]; then
+  git config -f ${GERRIT_HOME}/etc/secure.config sendemail.smtpPass ${SMTP_PASS}
+  chmod 600 ${GERRIT_HOME}/etc/secure.config
+fi
 
 if [ -n "${PUBLIC_URL}" ]; then
   git config -f ${GERRIT_HOME}/etc/gerrit.config gerrit.canonicalWebUrl ${PUBLIC_URL}
+fi
+
+if [ -n "${DATABASE_TYPE}" ]; then
+  git config -f ${GERRIT_HOME}/etc/gerrit.config database.type ${DATABASE_TYPE}
+fi
+
+if [ -n "${DATABASE_NAME}" ]; then
+  git config -f ${GERRIT_HOME}/etc/gerrit.config database.database ${DATABASE_NAME}
 fi
 
 if [ -n "${DATABASE_USERNAME}" ]; then
