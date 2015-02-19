@@ -21,7 +21,8 @@ RUN apt-get -y update \
   && java -jar ${GERRIT_HOME}/bin/gerrit.war init --batch -d ${GERRIT_HOME} \
   && chown -R ${GERRIT_USER}:${GERRIT_USER} ${GERRIT_HOME}
 ADD start.sh ${GERRIT_HOME}/bin/start.sh
+VOLUME ["/opt/gerrit/volume", "/opt/gerrit/index"]
 WORKDIR ${GERRIT_HOME}
-USER ${GERRIT_USER}
 EXPOSE 8005 29418
-ENTRYPOINT ["/opt/gerrit/bin/start.sh", "start"]
+ENTRYPOINT ["/opt/gerrit/bin/start.sh"]
+CMD ["start"]

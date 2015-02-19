@@ -1,5 +1,7 @@
 #!/bin/bash
 
+git config -f ${GERRIT_HOME}/etc/gerrit.config gerrit.basePath    volume/git
+git config -f ${GERRIT_HOME}/etc/gerrit.config cache.directory    volume/cache
 git config -f ${GERRIT_HOME}/etc/gerrit.config container.user     gerrit2
 git config -f ${GERRIT_HOME}/etc/gerrit.config container.javaHome ${JAVA_HOME}
 git config -f ${GERRIT_HOME}/etc/gerrit.config auth.type          ${AUTH_TYPE}
@@ -39,14 +41,22 @@ if [ "${AUTH_TYPE}" = "HTTP" -a -n "${GITHUB_CLIENT_ID}" -a -n "${GITHUB_CLIENT_
   chmod 600 ${GERRIT_HOME}/etc/secure.config
 fi
 
-if [ -n "${REINDEX}" ]; then
-  java -jar ${GERRIT_HOME}/bin/gerrit.war init --batch -d ${GERRIT_HOME}
-  java -jar ${GERRIT_HOME}/bin/gerrit.war reindex -d ${GERRIT_HOME}
-fi
-
-${GERRIT_HOME}/bin/gerrit.sh "$@"
-if [ $? -eq 0 ]; then
-  tail -n 0 -f ${GERRIT_HOME}/logs/error_log | grep -v '\ INFO\ ' 1>&2
-else
-  cat ${GERRIT_HOME}/logs/error_log 1>&2
-fi
+case "$1" in
+  init)
+    java -jar ${GERRIT_HOME}/bin/gerrit.war init --batch -d ${GERRIT_HOME}
+    chown -R ${GERRIT_USER}:${GERRIT_USER} ${GERRIT_HOME}
+    ;;
+  reindex)
+    java -jar ${GERRIT_HOME}/bin/gerrit.war reindex -d ${GERRIT_HOME}
+    chown -R ${GERRIT_USER}:${GERRIT_USER} ${GERRIT_HOME}
+    ;;
+  *)
+    chown -R ${GERRIT_USER}:${GERRIT_USER} ${GERRIT_HOME}
+    su -c "${GERRIT_HOME}/bin/gerrit.sh $1" ${GERRIT_USER}
+    if [ $? -eq 0 ]; then
+      tail -n 0 -f ${GERRIT_HOME}/logs/error_log | grep -v '\ INFO\ ' 1>&2
+    else
+      cat ${GERRIT_HOME}/logs/error_log 1>&2
+    fi
+    ;;
+esac
