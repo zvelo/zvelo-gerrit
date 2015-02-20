@@ -144,7 +144,8 @@ configure() {
     echo -e "${SSH_PRIVATE_KEY}" > ${GERRIT_HOME}/.ssh/id_rsa
     chmod 700 ${GERRIT_HOME}/.ssh
     chmod 600 ${GERRIT_HOME}/.ssh/id_rsa
-    echo "StrictHostKeyChecking no" > ${GERRIT_HOME}/.ssh/config
+    echo "StrictHostKeyChecking no"     >  ${GERRIT_HOME}/.ssh/config
+    echo "UserKnownHostsFile /dev/null" >> ${GERRIT_HOME}/.ssh/config
     chown -R ${GERRIT_USER}:${GERRIT_USER} ${GERRIT_HOME}/.ssh
   fi
 }

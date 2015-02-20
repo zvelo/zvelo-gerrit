@@ -26,6 +26,7 @@ ExecStart=/bin/bash -c " \
     -e IMAGE_NAME=zvelo/%p \
     -v /home/core/data/%p/volume:/opt/gerrit/volume \
     -v /home/core/data/%p/index:/opt/gerrit/index \
+    -v /home/core/data/%p/logs:/opt/gerrit/logs \
     zvelo/%p \
   "
 ExecStop=/usr/bin/docker stop %p
