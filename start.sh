@@ -7,11 +7,14 @@ usage() {
 }
 
 configure() {
-  git config -f ${GERRIT_HOME}/etc/gerrit.config gerrit.basePath        "volume/git"
-  git config -f ${GERRIT_HOME}/etc/gerrit.config cache.directory        "volume/cache"
-  git config -f ${GERRIT_HOME}/etc/gerrit.config container.user         "gerrit2"
-  git config -f ${GERRIT_HOME}/etc/gerrit.config container.javaHome     "${JAVA_HOME}"
-  git config -f ${GERRIT_HOME}/etc/replication.config remote.github.url 'git@github.com:${name}.git'
+  git config -f ${GERRIT_HOME}/etc/gerrit.config gerrit.basePath    "volume/git"
+  git config -f ${GERRIT_HOME}/etc/gerrit.config cache.directory    "volume/cache"
+  git config -f ${GERRIT_HOME}/etc/gerrit.config container.user     "gerrit2"
+  git config -f ${GERRIT_HOME}/etc/gerrit.config container.javaHome "${JAVA_HOME}"
+
+  git config -f ${GERRIT_HOME}/etc/replication.config       remote.github.url  'git@github.com:${name}.git'
+  git config -f ${GERRIT_HOME}/etc/replication.config       remote.github.push 'refs/heads/*:refs/heads/*'
+  git config -f ${GERRIT_HOME}/etc/replication.config --add remote.github.push 'refs/tags/*:refs/tags/*'
 
   if [ -n "${REGISTER_EMAIL_PRIVATE_KEY}" ]; then
     git config -f ${GERRIT_HOME}/etc/secure.config auth.registerEmailPrivateKey "${REGISTER_EMAIL_PRIVATE_KEY}"
