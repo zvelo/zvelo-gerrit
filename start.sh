@@ -131,8 +131,15 @@ configure() {
     git config -f ${GERRIT_HOME}/etc/replication.config remote.github.url "git@github.com:${REPLICATION_ORG}/\${name}.git"
   fi
 
+  if [ -n "${SSH_HOST_KEY}" ]; then
+    echo -e ${SSH_HOST_KEY} | base64 -d > ${GERRIT_HOME}/etc/ssh_host_key
+  fi
+
   if [ -n "${SSH_PUBLIC_KEY}" -a -n "${SSH_PRIVATE_KEY}" ]; then
-    mkdir ${GERRIT_HOME}/.ssh
+    if [ ! -d ${GERRIT_HOME}/.ssh ]; then
+      mkdir ${GERRIT_HOME}/.ssh
+    fi
+
     echo -e "${SSH_PUBLIC_KEY}"  > ${GERRIT_HOME}/.ssh/id_rsa.pub
     echo -e "${SSH_PRIVATE_KEY}" > ${GERRIT_HOME}/.ssh/id_rsa
     chmod 700 ${GERRIT_HOME}/.ssh
