@@ -7,10 +7,11 @@ usage() {
 }
 
 configure() {
-  git config -f ${GERRIT_HOME}/etc/gerrit.config gerrit.basePath    "volume/git"
-  git config -f ${GERRIT_HOME}/etc/gerrit.config cache.directory    "volume/cache"
-  git config -f ${GERRIT_HOME}/etc/gerrit.config container.user     "gerrit2"
-  git config -f ${GERRIT_HOME}/etc/gerrit.config container.javaHome "${JAVA_HOME}"
+  git config -f ${GERRIT_HOME}/etc/gerrit.config gerrit.basePath        "volume/git"
+  git config -f ${GERRIT_HOME}/etc/gerrit.config cache.directory        "volume/cache"
+  git config -f ${GERRIT_HOME}/etc/gerrit.config container.user         "gerrit2"
+  git config -f ${GERRIT_HOME}/etc/gerrit.config container.javaHome     "${JAVA_HOME}"
+  git config -f ${GERRIT_HOME}/etc/replication.config remote.github.url 'git@github.com:${name}.git'
 
   if [ -n "${REGISTER_EMAIL_PRIVATE_KEY}" ]; then
     git config -f ${GERRIT_HOME}/etc/secure.config auth.registerEmailPrivateKey "${REGISTER_EMAIL_PRIVATE_KEY}"
@@ -127,10 +128,6 @@ configure() {
     chmod 600 ${GERRIT_HOME}/etc/secure.config
   fi
 
-  if [ -n "${REPLICATION_ORG}" ]; then
-    git config -f ${GERRIT_HOME}/etc/replication.config remote.github.url "git@github.com:${REPLICATION_ORG}/\${name}.git"
-  fi
-
   if [ -n "${SSH_HOST_KEY}" ]; then
     echo -e ${SSH_HOST_KEY} | base64 -d > ${GERRIT_HOME}/etc/ssh_host_key
   fi
@@ -152,8 +149,11 @@ configure() {
 case "$1" in
   configure)
     configure
+    echo ">>> gerrit.config"
     git config -f ${GERRIT_HOME}/etc/gerrit.config -l
+    echo -e "\n>>> replication.config"
     git config -f ${GERRIT_HOME}/etc/replication.config -l
+    echo -e "\n>>> secure.config"
     git config -f ${GERRIT_HOME}/etc/secure.config -l
     ;;
   init|reindex)
