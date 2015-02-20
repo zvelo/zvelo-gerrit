@@ -153,6 +153,8 @@ case "$1" in
   configure)
     configure
     git config -f ${GERRIT_HOME}/etc/gerrit.config -l
+    git config -f ${GERRIT_HOME}/etc/replication.config -l
+    git config -f ${GERRIT_HOME}/etc/secure.config -l
     ;;
   init|reindex)
     configure
