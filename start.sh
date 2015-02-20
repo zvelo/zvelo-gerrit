@@ -172,6 +172,8 @@ case "$1" in
   start)
     configure
     chown -R ${GERRIT_USER}:${GERRIT_USER} ${GERRIT_HOME}
+    rm -f ${GERRIT_HOME}/logs/gerrit.pid
+    rm -f ${GERRIT_HOME}/logs/gerrit.run
     su -c "${GERRIT_HOME}/bin/gerrit.sh $1" ${GERRIT_USER}
     if [ $? -eq 0 ]; then
       tail -n 0 -f ${GERRIT_HOME}/logs/error_log | grep -v '\ INFO\ ' 1>&2
