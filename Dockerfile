@@ -24,6 +24,7 @@ RUN apt-get -y update \
   && java -jar ${GERRIT_HOME}/bin/gerrit.war init --batch -d ${GERRIT_HOME} \
   && chown -R ${GERRIT_USER}:${GERRIT_USER} ${GERRIT_HOME}
 ADD start.sh ${GERRIT_HOME}/bin/start.sh
+ADD known_hosts ${GERRIT_HOME}/.ssh/known_hosts
 VOLUME ["/opt/gerrit/volume", "/opt/gerrit/index", "/opt/gerrit/logs"]
 WORKDIR ${GERRIT_HOME}
 EXPOSE 8005 29418
